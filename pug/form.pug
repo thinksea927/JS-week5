@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous")
+        //- link(rel="stylesheet", href="css/all.css")
+        script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous")
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" )
+        script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/3.3.0/vee-validate.full.min.js")
+        title week5
+    body.d-flex.justify-content-center.align-items-center
+        #app.mt-5
+            validation-observer(v-slot="{ invalid }")
+                form(@submit.prevent="newOrder")
+                    .form-group
+                        validation-provider(rules="required" v-slot="{ errors, classes }")
+                            label(for='name') Name
+                            input#name.form-control(type='text' placeholder='Your Name' v-model="user.name" :class="classes") 
+                            span.invalid-feedback(v-if="errors[0]") {{errors[0]}}
+                    .form-group
+                        validation-provider(rules="required|email" v-slot="{ errors, classes }")
+                            label(for='email') Email address
+                            input#email.form-control(type='email' placeholder='Enter email' v-model="user.email" :class="classes")
+                            span.invalid-feedback(v-if="errors[0]") {{errors[0]}}
+                    .form-group
+                        validation-provider(rules="required|min:8" v-slot="{ errors, classes }")
+                            label(for='phone') Phone Number
+                            input#phone.form-control(type='tel' placeholder='Your phone number' v-model="user.phone" :class="classes")
+                            span.invalid-feedback(v-if="errors[0]") {{errors[0]}}
+                    .form-group
+                        validation-provider(rules="required" v-slot="{ errors, classes }")
+                            label(for='address') Home address
+                            input#address.form-control(type='text' placeholder='Home address' v-model="user.address" :class="classes")
+                            span.invalid-feedback(v-if="errors[0]") {{errors[0]}}
+                    .form-group
+                            label(for='payment') Payment terms
+                            select.form-control(v-model="user.payment" required)
+                                option(value="" disabled) Please choose one payment term
+                                option(value="WebATM") WebATM
+                                option(value="CVS") CVS
+                                option(value="Barcode") Barcode
+                                option(value="Credit") Credit
+                                option(value="ApplePay") ApplePay
+                                option(value="GooglePay") GooglePay
+                    .form-group
+                            label(for='remarks') Remarks
+                            textarea#remarks.form-control(type='text' placeholder='Leave your remarks here' cols="30" rows="5" v-model="user.remarks")
+                    .text-right
+                        button.btn.btn-primary(type="submit" :disabled="invalid") Submit
+
+        script(src="form.js")
